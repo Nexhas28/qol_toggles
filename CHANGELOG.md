@@ -1,5 +1,14 @@
 # Changelog
 
+## [Unreleased]
+
+### Fixed
+
+- **FIELD MOVES ALL on Gen 2**: Talking to a cut tree now offers CUT when a
+  party Pokémon can learn it, matching the party menu and Rock Smash.
+  HM-item and badge requirements still apply; AUTO CUT still needs a
+  Pokémon that actually knows CUT.
+
 ## [1.31.0] - 2026-09-12
 
 ### Added

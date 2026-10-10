@@ -163,7 +163,8 @@ love .
   cuts it for you (the tileset, block-swap and CUT gates are exactly
   the vanilla party-menu ones).  The player stays put while the text
   and animation play.  FIELD MOVES ALL does not extend to auto-cut —
-  a mon that merely can learn CUT must still use the party menu.
+  a mon that merely can learn CUT must still interact with the tree or
+  use the party menu.
 - **RUN (HOLD B)** — hold B to move twice as fast on foot (bike speed
   without the bike); the bike and surfing keep their own speeds, and
   B does nothing it did not already do in the overworld.

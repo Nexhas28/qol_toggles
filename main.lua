@@ -4359,7 +4359,8 @@ return function(mod)
 
       -- AUTO CUT: Gold's Player:tryMove returns a single "blocked" string
       -- and cut trees go through FieldMoves.tryCutOW; a blocked step facing
-      -- a cuttable tile cuts it instead of bonking.
+      -- a cuttable tile cuts it instead of bonking. Keep the shortcut's
+      -- known-CUT requirement even when FIELD MOVES ALL is enabled.
       local Player2 = require("src.world.gen2.Player")
       if not Player2._qolTogglesAutoCutInstalled then
         Player2._qolTogglesAutoCutInstalled = true
@@ -4368,7 +4369,8 @@ return function(mod)
           local result = vanillaTryMove(self, dir, map, entities)
           if result == "blocked" and get("auto_cut") then
             local save = Game.save
-            if save and save.party then
+            if save and save.party
+                and mod.exports.eligibleMon(save.party, nil, "CUT", false) then
               local FieldMoves = self.cellX
                 and require("src.world.gen2.FieldMoves")
               local world = Game.overworld
@@ -4767,7 +4769,10 @@ return function(mod)
     local b = ctx and ctx.save
     if b and b.party
        and (get("badgeless_moves") or get("field_moves_all")) then
-      local mon = mod.exports.eligibleMon(b.party, ctx.data, moveId,
+      -- Gen 2's tree/HM context omits data; Rock Smash supplies it. Use
+      -- the live game's learnsets when the context has none.
+      local data = ctx.data or (mod.game and mod.game.data)
+      local mon = mod.exports.eligibleMon(b.party, data, moveId,
                                           get("field_moves_all"),
                                           b.inventory,
                                           get("hm_item_required"))
