@@ -14,6 +14,7 @@ love .
 
 ## The switches
 
+- **NO BIKE MUSIC** — Prevents the bike theme from playing except when on ROUTE 17.
 - **POISON SAVE** — when a poisoned party member would faint from
   out-of-battle poison damage, it survives at 1 HP and the poison
   subsides: *"X's poison has subsided!"*

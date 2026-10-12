@@ -1,5 +1,6 @@
 -- QoL Toggles: an OPTIONS -> QOL TOGGLES submenu with quality-of-life
 -- switches, each persisted in options.lua:
+--   NO BIKE MUSIC    Suppresses the bike theme except on ROUTE 17.
 --   POISON SAVE      a poisoned party member survives at 1 HP and its
 --                    poison subsides: "X's poison has subsided!"
 --   FULL HEAL CATCH  every captured Pokémon (party or PC) is fully
@@ -392,6 +393,8 @@ local function batteryLabel(value)
 end
 
 local TOGGLES = {
+  { key = "no_bike_music", label = "NO BIKE MUSIC", default = false,                
+    help = "Suppresses the\nbike theme on\nroutes other than\nROUTE 17." },  
   { key = "poison_save", label = "POISON SAVE", default = true,
     help = "A poisoned mon\nfated to faint\nfrom the step\nkeeps 1 HP and\nthe poison\nsubsides." },
   { key = "catch_heal", label = "FULL HEAL CATCH", default = true,
@@ -5151,6 +5154,23 @@ return function(mod)
       return vanillaUpdate(self, dt)
     end
   end
+
+  -- NO BIKE MUSIC: suppress the bike-riding track on every route except
+  -- Route 17. Returning ctx.mapSong keeps the current area's music playing
+  -- instead of allowing the bike track to replace it.
+  if not GEN2 then
+    mod.hooks:wrap("music.select", function(next, song, ctx)
+      if get("no_bike_music")
+         and song == "Music_BikeRiding"
+         and ctx.mapId ~= "ROUTE_17" then
+        return ctx.mapSong
+      end
+      return next(song, ctx)
+    end)
+  end
+
+
+
 
   -- -------------------------------------------------- HOLD TO SCROLL
 
